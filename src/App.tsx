@@ -1,5 +1,9 @@
-function App() {
-  return <h1>Car Showroom</h1>;
+import { RouterProvider } from 'react-router';
+
+import { router } from './router';
+
+export function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;

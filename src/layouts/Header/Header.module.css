@@ -1,0 +1,33 @@
+.header {
+  background-color: #1e293b;
+  color: #f8fafc;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #334155;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
