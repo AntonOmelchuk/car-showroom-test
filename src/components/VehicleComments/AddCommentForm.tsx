@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { type SubmitEvent, useState } from 'react';
 
 import { TRANSLATIONS } from '../../constants/translations';
 import { useReviewsStore } from '../../stores/useReviewsStore';
+import { delay } from '../../utils/general';
 import styles from './AddCommentForm.module.css';
 
 interface AddCommentFormProps {
@@ -28,11 +29,11 @@ export const AddCommentForm = ({ vehicleId }: AddCommentFormProps) => {
   const [comment, setComment] = useState('');
   const [errors, setErrors] = useState<FormErrors>({});
 
-  // Input change handlers with immediate error clearing for better UX
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setReviewerName(val);
-
     if (errors.reviewerName) {
       setErrors((prev) => ({ ...prev, reviewerName: undefined }));
     }
@@ -41,7 +42,6 @@ export const AddCommentForm = ({ vehicleId }: AddCommentFormProps) => {
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const val = e.target.value;
     setComment(val);
-
     if (errors.comment) {
       setErrors((prev) => ({ ...prev, comment: undefined }));
     }
@@ -72,24 +72,32 @@ export const AddCommentForm = ({ vehicleId }: AddCommentFormProps) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
 
     if (!validate()) {
       return;
     }
 
-    addReview(vehicleId, {
-      reviewerName: reviewerName.trim(),
-      rating,
-      comment: comment.trim(),
-    });
+    setIsSubmitting(true);
+    await delay(1200);
 
-    // Reset form state
-    setReviewerName('');
-    setComment('');
-    setRating(5);
-    setErrors({});
+    try {
+      addReview(vehicleId, {
+        reviewerName: reviewerName.trim(),
+        rating,
+        comment: comment.trim(),
+      });
+
+      setReviewerName('');
+      setComment('');
+      setRating(5);
+      setErrors({});
+    } catch (error) {
+      console.error('Failed to add review', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -109,6 +117,7 @@ export const AddCommentForm = ({ vehicleId }: AddCommentFormProps) => {
           value={reviewerName}
           onChange={handleNameChange}
           maxLength={NAME_MAX_LENGTH}
+          disabled={isSubmitting}
         />
         {errors.reviewerName && <span className={styles.errorMessage}>{errors.reviewerName}</span>}
       </div>
@@ -123,6 +132,7 @@ export const AddCommentForm = ({ vehicleId }: AddCommentFormProps) => {
           className={styles.select}
           value={rating}
           onChange={(e) => setRating(Number(e.target.value))}
+          disabled={isSubmitting}
         >
           <option value={5}>★★★★★ (5/5)</option>
           <option value={4}>★★★★☆ (4/5)</option>
@@ -145,6 +155,7 @@ export const AddCommentForm = ({ vehicleId }: AddCommentFormProps) => {
           onChange={handleCommentChange}
           rows={4}
           maxLength={COMMENT_MAX_LENGTH}
+          disabled={isSubmitting}
         />
         <div className={styles.textareaFooter}>
           {errors.comment ? (
@@ -157,8 +168,8 @@ export const AddCommentForm = ({ vehicleId }: AddCommentFormProps) => {
         </div>
       </div>
 
-      <button type="submit" className={styles.submitBtn}>
-        {TRANSLATIONS.comments.submitBtn}
+      <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
+        {isSubmitting ? `${TRANSLATIONS.comments.submitting}...` : TRANSLATIONS.comments.submitBtn}
       </button>
     </form>
   );

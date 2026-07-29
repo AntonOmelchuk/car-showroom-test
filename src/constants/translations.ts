@@ -45,6 +45,7 @@ export const TRANSLATIONS = {
     yourComment: 'Ваш відгук',
     commentPlaceholder: 'Поділіться враженнями про цей автомобіль...',
     submitBtn: 'Надіслати відгук',
+    submitting: 'Відправлення',
     errors: {
       nameRequired: 'Будь ласка, вкажіть ваше ім`я',
       invalidName: 'Iм`я містить недопустимі символи',
