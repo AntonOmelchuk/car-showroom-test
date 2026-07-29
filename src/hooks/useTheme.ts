@@ -1,52 +1,45 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { THEME_OPTIONS, type ThemeOption } from '../constants/general';
-
-const LOCAL_STORAGE_KEY = 'theme';
+import { THEME_OPTIONS } from '../constants/general';
+import { TRANSLATIONS } from '../constants/translations';
+import { useThemeStore } from '../stores/useThemeStore';
 
 /**
- * Custom hook for managing application theme with persistent storage
- * and system preferences fallback.
+ * Custom hook wrapping useThemeStore to handle theme state,
+ * system preference listeners, and UI label formatting.
  */
-export const useTheme = () => {
-  const [theme, setTheme] = useState<ThemeOption>(() => {
-    const savedTheme = localStorage.getItem(LOCAL_STORAGE_KEY) as ThemeOption | null;
-    if (savedTheme && Object.values(THEME_OPTIONS).includes(savedTheme)) {
-      return savedTheme;
-    }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? THEME_OPTIONS.DARK
-      : THEME_OPTIONS.LIGHT;
-  });
+const useTheme = () => {
+  const theme = useThemeStore((state) => state.theme);
+  const isSystemTheme = useThemeStore((state) => state.isSystemTheme);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
+  const setTheme = useThemeStore((state) => state.setTheme);
 
-  // Sync theme with document attributes and localStorage
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(LOCAL_STORAGE_KEY, theme);
-  }, [theme]);
-
-  // Listen to OS system theme updates if user hasn't explicitly set a preference
+  // Listen to OS system theme updates only if user hasn't toggled manually
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
     const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-      const hasSavedTheme = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (!hasSavedTheme) {
-        setTheme(e.matches ? THEME_OPTIONS.DARK : THEME_OPTIONS.LIGHT);
+      if (isSystemTheme) {
+        const newTheme = e.matches ? THEME_OPTIONS.DARK : THEME_OPTIONS.LIGHT;
+        setTheme(newTheme, false);
       }
     };
 
     mediaQuery.addEventListener('change', handleSystemThemeChange);
     return () => mediaQuery.removeEventListener('change', handleSystemThemeChange);
-  }, []);
+  }, [isSystemTheme, setTheme]);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === THEME_OPTIONS.LIGHT ? THEME_OPTIONS.DARK : THEME_OPTIONS.LIGHT));
-  };
+  const isDark = theme === THEME_OPTIONS.DARK;
+  const themeIcon = isDark ? '☀️' : '🌙';
+  const themeLabel = isDark ? TRANSLATIONS.header.themeLight : TRANSLATIONS.header.themeDark;
 
   return {
     theme,
-    isDark: theme === THEME_OPTIONS.DARK,
+    isDark,
+    themeIcon,
+    themeLabel,
     toggleTheme,
   };
 };
+
+export default useTheme;

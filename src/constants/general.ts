@@ -20,6 +20,7 @@ export const ROUTES = {
 
 export const STORAGE_KEYS = {
   CUSTOM_REVIEWS: 'car_showroom_custom_reviews',
+  THEME: 'theme-storage',
 } as const;
 
 export const VALIDATION_LIMITS = {
