@@ -48,6 +48,10 @@ export const useVehiclesStore = create<VehiclesState>((set) => ({
   },
 
   clearCurrentVehicle: () => {
-    set({ currentVehicle: null });
+    set({
+      currentVehicle: null,
+      status: FETCH_STATUS.IDLE,
+      error: null,
+    });
   },
 }));
