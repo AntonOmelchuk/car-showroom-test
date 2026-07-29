@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link, useParams } from 'react-router';
 
 import Loader from '../../components/UI/Loader/Loader';
+import VehicleComments from '../../components/VehicleComments/VehicleComments';
 import VehicleGallery from '../../components/VehicleDetail/VehicleGallery';
 import VehicleInfo from '../../components/VehicleDetail/VehicleInfo';
 import VehicleNotFound from '../../components/VehicleDetail/VehicleNotFound';
@@ -35,6 +36,7 @@ export const VehicleDetailPage = () => {
   }
 
   const {
+    id,
     title,
     brand,
     description,
@@ -44,6 +46,7 @@ export const VehicleDetailPage = () => {
     category,
     thumbnail,
     images = [],
+    reviews = [],
     warrantyInformation,
     shippingInformation,
     returnPolicy,
@@ -81,6 +84,8 @@ export const VehicleDetailPage = () => {
           returnPolicy={returnPolicy}
         />
       </div>
+
+      <VehicleComments vehicleId={id} allReviews={reviews} />
     </div>
   );
 };
