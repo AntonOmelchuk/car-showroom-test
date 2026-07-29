@@ -28,3 +28,10 @@ export const VALIDATION_LIMITS = {
   REVIEW_COMMENT_MIN: 5,
   REVIEW_COMMENT_MAX: 500,
 } as const;
+
+export const THEME_OPTIONS = {
+  LIGHT: 'light',
+  DARK: 'dark',
+} as const;
+
+export type ThemeOption = (typeof THEME_OPTIONS)[keyof typeof THEME_OPTIONS];

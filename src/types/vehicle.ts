@@ -5,7 +5,7 @@ export interface Review {
   date: string;
   reviewerName: string;
   reviewerEmail?: string;
-  isCustom?: boolean; // Прапорець для коментарів, доданих локально користувачем
+  isCustom?: boolean;
 }
 
 export interface Vehicle {

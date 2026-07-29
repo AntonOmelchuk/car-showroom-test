@@ -4,6 +4,7 @@ import { vehiclesApi } from '../api/vehicleApi';
 import { FETCH_STATUS, type FetchStatus } from '../constants/general';
 import { TRANSLATIONS } from '../constants/translations';
 import type { Vehicle } from '../types/vehicle';
+import { delay } from '../utils/general';
 
 interface VehiclesState {
   vehicles: Vehicle[];
@@ -27,6 +28,7 @@ export const useVehiclesStore = create<VehiclesState>((set) => ({
     set({ status: FETCH_STATUS.LOADING, error: null });
     try {
       const response = await vehiclesApi.getVehicles();
+      await delay(2100); // Just for test
       set({ vehicles: response.products, status: FETCH_STATUS.SUCCESS });
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : TRANSLATIONS.errors.fetchFailed;

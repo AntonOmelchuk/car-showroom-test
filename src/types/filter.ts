@@ -1,7 +1,8 @@
-export interface VehicleFilterParams {
-  searchQuery?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  sortBy?: 'price' | 'rating' | 'title';
-  sortOrder?: 'asc' | 'desc';
-}
+export const SORT_OPTIONS = {
+  DEFAULT: 'default',
+  PRICE_ASC: 'price-asc',
+  PRICE_DESC: 'price-desc',
+  RATING_DESC: 'rating-desc',
+} as const;
+
+export type SortOption = (typeof SORT_OPTIONS)[keyof typeof SORT_OPTIONS];

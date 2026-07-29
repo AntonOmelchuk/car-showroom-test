@@ -1,0 +1,35 @@
+.container {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.message {
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+}
+
+.retryButton {
+  background-color: #dc2626;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.retryButton:hover {
+  background-color: #b91c1c;
+}
