@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router';
 
+import ErrorMessage from '../../components/UI/ErrorMessage/ErrorMessage';
 import Loader from '../../components/UI/Loader/Loader';
 import VehicleComments from '../../components/VehicleComments/VehicleComments';
 import VehicleGallery from '../../components/VehicleDetail/VehicleGallery';
@@ -14,9 +15,15 @@ import styles from './VehicleDetailPage.module.css';
 
 export const VehicleDetailPage = () => {
   const { vehicleId } = useParams<{ vehicleId: string }>();
-  const { currentVehicle, fetchVehicleById, status, clearCurrentVehicle } = useVehiclesStore();
+  const { currentVehicle, fetchVehicleById, status, error, clearCurrentVehicle } =
+    useVehiclesStore();
 
-  // Fetch vehicle details on mount and handle cleanup
+  const handleRetry = () => {
+    if (vehicleId) {
+      fetchVehicleById(vehicleId);
+    }
+  };
+
   useEffect(() => {
     if (vehicleId) {
       fetchVehicleById(vehicleId);
@@ -29,6 +36,17 @@ export const VehicleDetailPage = () => {
 
   if (status === FETCH_STATUS.LOADING) {
     return <Loader />;
+  }
+
+  if (status === FETCH_STATUS.ERROR) {
+    return (
+      <div className={styles.container}>
+        <Link to={ROUTES.HOME} className={styles.backLink}>
+          ← {TRANSLATIONS.vehicleDetails.backButton}
+        </Link>
+        <ErrorMessage message={error || TRANSLATIONS.errors.fetchFailed} onRetry={handleRetry} />
+      </div>
+    );
   }
 
   if (!currentVehicle) {

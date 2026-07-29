@@ -81,4 +81,10 @@ export const TRANSLATIONS = {
     returnPolicy: 'Умови повернення',
     units: 'шт.',
   },
+  notFoundPage: {
+    title: '404',
+    subtitle: 'Сторінку не знайдено',
+    description: 'На жаль, запрашувана сторінка не існує або була переміщена.',
+    homeButton: 'Повернутися на головну',
+  },
 } as const;
