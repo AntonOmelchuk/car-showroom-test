@@ -12,7 +12,7 @@ A modern virtual auto dealership Single Page Application (SPA) built with **Reac
 
 - **Vehicle Listing:** Responsive grid displaying vehicles filtered from the DummyJSON Products API (`vehicle` category).
 - **Search & Filtering:** Real-time search by title/brand, category filter, price range slider, and sorting (by price, rating, or name).
-- **Loading States:** Smooth user experience with loaders and skeleton screen states during API fetching.
+- **Loading States:** Smooth user experience with loaders during API fetching.
 
 ### 2. Vehicle Detail Page (`/vehicles/:vehicleId`)
 
