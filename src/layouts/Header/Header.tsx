@@ -1,14 +1,9 @@
-import { THEME_OPTIONS } from '../../constants/general';
 import { TRANSLATIONS } from '../../constants/translations';
-import { useTheme } from '../../hooks/useTheme';
+import useTheme from '../../hooks/useTheme';
 import styles from './Header.module.css';
 
 const Header = () => {
-  const { theme, toggleTheme } = useTheme();
-
-  const isLight = theme === THEME_OPTIONS.LIGHT;
-  const themeIcon = isLight ? '🌙' : '☀️';
-  const themeLabel = isLight ? TRANSLATIONS.header.themeDark : TRANSLATIONS.header.themeLight;
+  const { themeIcon, themeLabel, toggleTheme } = useTheme();
 
   return (
     <header className={styles.header}>
