@@ -1,7 +1,7 @@
 import { TRANSLATIONS } from '../../constants/translations';
 import styles from './Footer.module.css';
 
-export const Footer = () => {
+const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -14,3 +14,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;
