@@ -28,7 +28,7 @@ export const useVehiclesStore = create<VehiclesState>((set) => ({
     set({ status: FETCH_STATUS.LOADING, error: null });
     try {
       const response = await vehiclesApi.getVehicles();
-      await delay(2100); // Just for test
+      await delay(1200); // Just for test
       set({ vehicles: response.products, status: FETCH_STATUS.SUCCESS });
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : TRANSLATIONS.errors.fetchFailed;
